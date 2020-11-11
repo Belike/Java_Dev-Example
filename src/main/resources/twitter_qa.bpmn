@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_0801oja" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.3.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_0801oja" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.3.0">
   <bpmn:process id="TwitterQa" name="Twitter Qa Prozess" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1" name="Tweet eingegangen">
       <bpmn:outgoing>Flow_04a3kpz</bpmn:outgoing>
@@ -25,11 +25,6 @@
       <bpmn:incoming>Flow_032tayo</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_032tayo" sourceRef="Activity_0t1c7ns" targetRef="Event_1itwpf1" />
-    <bpmn:scriptTask id="Activity_00y0x71" name="Tweet posten" scriptFormat="Javascript">
-      <bpmn:incoming>Flow_0m8624s</bpmn:incoming>
-      <bpmn:outgoing>Flow_1i78487</bpmn:outgoing>
-      <bpmn:script>print('Tweet published');</bpmn:script>
-    </bpmn:scriptTask>
     <bpmn:scriptTask id="Activity_0t1c7ns" name="Tweet ablehnen" scriptFormat="Javascript">
       <bpmn:incoming>Flow_05znbw6</bpmn:incoming>
       <bpmn:outgoing>Flow_032tayo</bpmn:outgoing>
@@ -39,6 +34,10 @@
       <bpmn:incoming>Flow_04a3kpz</bpmn:incoming>
       <bpmn:outgoing>Flow_05u8vgc</bpmn:outgoing>
     </bpmn:manualTask>
+    <bpmn:serviceTask id="Activity_00y0x71" name="Tweet posten" camunda:delegateExpression="${createTweetDelegate}">
+      <bpmn:incoming>Flow_0m8624s</bpmn:incoming>
+      <bpmn:outgoing>Flow_1i78487</bpmn:outgoing>
+    </bpmn:serviceTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="TwitterQa">
@@ -97,14 +96,14 @@
           <dc:Bounds x="900" y="305" width="81" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1j51846_di" bpmnElement="Activity_00y0x71">
-        <dc:Bounds x="700" y="77" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_175z333_di" bpmnElement="Activity_0t1c7ns">
         <dc:Bounds x="700" y="240" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0q1i1cb_di" bpmnElement="Activity_16a9i7j">
         <dc:Bounds x="323" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0qwb7df_di" bpmnElement="Activity_00y0x71">
+        <dc:Bounds x="700" y="77" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
