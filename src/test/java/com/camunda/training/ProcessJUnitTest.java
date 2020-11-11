@@ -38,10 +38,15 @@ public class ProcessJUnitTest {
     
 	    // Create a HashMap to put in variables for the process instance
 	    Map<String, Object> variables = new HashMap<String, Object>();
-	    variables.put("approved", true);
 	    variables.put("content", "Hey ya, Norman hier : " + ThreadLocalRandom.current().nextInt());
 	    // Start process with Java API and variables
 	    ProcessInstance processInstance = runtimeService().startProcessInstanceByKey("TwitterQa", variables);
+	    
+	    // Test The UserTask
+	    assertThat(processInstance).isWaitingAt("CheckTweet_UserTask");
+	    complete(task(), withVariables("approved", true));
+	    
+	    
 	    // Make assertions on the process instance
 	    assertThat(processInstance).isEnded();
 	}
