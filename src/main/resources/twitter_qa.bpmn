@@ -30,7 +30,7 @@
       <bpmn:outgoing>Flow_032tayo</bpmn:outgoing>
       <bpmn:script>print('Tweet rejected');</bpmn:script>
     </bpmn:scriptTask>
-    <bpmn:serviceTask id="PostTweet_ServiceTask" name="Tweet posten" camunda:delegateExpression="${createTweetDelegate}">
+    <bpmn:serviceTask id="PostTweet_ServiceTask" name="Tweet posten" camunda:asyncBefore="true" camunda:delegateExpression="${createTweetDelegate}">
       <bpmn:incoming>Flow_0m8624s</bpmn:incoming>
       <bpmn:outgoing>Flow_1i78487</bpmn:outgoing>
     </bpmn:serviceTask>
