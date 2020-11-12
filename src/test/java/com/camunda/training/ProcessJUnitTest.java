@@ -50,10 +50,24 @@ public class ProcessJUnitTest {
 	    
 	    assertThat(processInstance).isWaitingAt("PostTweet_ServiceTask");
 	    execute(job());
-	    
-	    
+	    	    
 	    // Make assertions on the process instance
 	    assertThat(processInstance).isEnded();
+	}
+	
+	@Test
+	@Deployment(resources = "twitter_qa.bpmn")
+	public void testRejectedPath() {
+		
+	    ProcessInstance processInstance = runtimeService()
+	            .createProcessInstanceByKey("TwitterQa")
+	            .setVariables(withVariables("approved", false, "content", "Alles doof"))
+	            .startAfterActivity("CheckTweet_UserTask")
+	            .execute();
+	    
+	    assertThat(processInstance).isStarted();
+	    
+	    assertThat(processInstance).isEnded().hasPassed("TweetRejected_EndEvent");
 	}
 
 }
