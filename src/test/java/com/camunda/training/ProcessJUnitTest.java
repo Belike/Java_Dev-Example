@@ -67,7 +67,47 @@ public class ProcessJUnitTest {
 	    
 	    assertThat(processInstance).isStarted();
 	    
+	    assertThat(processInstance).isWaitingAt("RejectTweet_ServiceTask")
+	    	.externalTask().hasTopicName("notification");
+	    complete(externalTask());
+	    
 	    assertThat(processInstance).isEnded().hasPassed("TweetRejected_EndEvent");
 	}
+	
+	@Test
+	@Deployment(resources = "twitter_qa.bpmn")
+	public void testSuperUserTweet() {
+		
+		 ProcessInstance processInstance = runtimeService()
+			        .createMessageCorrelation("superuserTweet")
+			        .setVariable("content", "My Exercise 11 Tweet Norman - " + System.currentTimeMillis())
+			        .correlateWithResult()
+			        .getProcessInstance();
+		 
+		 assertThat(processInstance).isStarted();
+		 
+		 assertThat(processInstance).isWaitingAt("PostTweet_ServiceTask");
+		 execute(job());
+	}
+	
+	@Test
+	@Deployment(resources = "twitter_qa.bpmn")
+	public void tweetWithdrawn() {
+		
+		Map<String, Object> varMap = new HashMap<>();
+		varMap.put("content", "this tweet will be withdrawn");
+		
+		ProcessInstance processInstance = runtimeService().startProcessInstanceByKey("TwitterQa", varMap);
+		assertThat(processInstance).isStarted().isWaitingAt("CheckTweet_UserTask");
+		
+		runtimeService()
+			.createMessageCorrelation("tweetWithdrawn")
+			.processInstanceId(processInstance.getId())
+			.correlateAllWithResult();
+		
+		assertThat(processInstance).isEnded().hasPassed("WithdrawnTweet_EndEvent");
+		
+	}
+	
 
 }
