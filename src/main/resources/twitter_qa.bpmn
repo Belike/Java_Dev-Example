@@ -25,11 +25,6 @@
       <bpmn:incoming>Flow_032tayo</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_032tayo" sourceRef="RejectTweet_ScriptTask" targetRef="TweetRejected_EndEvent" />
-    <bpmn:scriptTask id="RejectTweet_ScriptTask" name="Tweet ablehnen" scriptFormat="Javascript">
-      <bpmn:incoming>Flow_05znbw6</bpmn:incoming>
-      <bpmn:outgoing>Flow_032tayo</bpmn:outgoing>
-      <bpmn:script>print('Tweet rejected');</bpmn:script>
-    </bpmn:scriptTask>
     <bpmn:serviceTask id="PostTweet_ServiceTask" name="Tweet posten" camunda:asyncBefore="true" camunda:delegateExpression="${createTweetDelegate}">
       <bpmn:incoming>Flow_0m8624s</bpmn:incoming>
       <bpmn:outgoing>Flow_1i78487</bpmn:outgoing>
@@ -38,6 +33,10 @@
       <bpmn:incoming>Flow_04a3kpz</bpmn:incoming>
       <bpmn:outgoing>Flow_05u8vgc</bpmn:outgoing>
     </bpmn:userTask>
+    <bpmn:serviceTask id="RejectTweet_ScriptTask" name="Tweet ablehnen" camunda:type="external" camunda:topic="notification">
+      <bpmn:incoming>Flow_05znbw6</bpmn:incoming>
+      <bpmn:outgoing>Flow_032tayo</bpmn:outgoing>
+    </bpmn:serviceTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="TwitterQa">
@@ -96,14 +95,14 @@
           <dc:Bounds x="900" y="305" width="81" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_175z333_di" bpmnElement="RejectTweet_ScriptTask">
-        <dc:Bounds x="700" y="240" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0qwb7df_di" bpmnElement="PostTweet_ServiceTask">
         <dc:Bounds x="700" y="77" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_03h1po4_di" bpmnElement="CheckTweet_UserTask">
         <dc:Bounds x="323" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0giwdjq_di" bpmnElement="RejectTweet_ScriptTask">
+        <dc:Bounds x="700" y="240" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

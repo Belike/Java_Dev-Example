@@ -38,7 +38,7 @@ public class ProcessJUnitTest {
     
 	    // Create a HashMap to put in variables for the process instance
 	    Map<String, Object> variables = new HashMap<String, Object>();
-	    variables.put("content", "Hey ya, Norman hier : " + ThreadLocalRandom.current().nextInt());
+	    variables.put("content", "Norman is happy (path) : " + ThreadLocalRandom.current().nextInt());
 	    // Start process with Java API and variables
 	    ProcessInstance processInstance = runtimeService().startProcessInstanceByKey("TwitterQa", variables);
 	    

@@ -104,6 +104,24 @@
       <version>0.3.2</version>
       <scope>test</scope>
     </dependency>
+    
+     <dependency>
+       <groupId>org.camunda.bpm</groupId>
+       <artifactId>camunda-external-task-client</artifactId>
+       <version>1.4.0</version>
+     </dependency>
+
+     <dependency>
+       <groupId>ch.qos.logback</groupId>
+       <artifactId>logback-classic</artifactId>
+       <version>1.2.3</version>
+     </dependency>
+
+     <dependency>
+       <groupId>com.sun.xml.bind</groupId>
+       <artifactId>jaxb-impl</artifactId>
+       <version>2.2.4</version>
+     </dependency>
 
   </dependencies>
 
